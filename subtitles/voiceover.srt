@@ -1,0 +1,16 @@
+1
+00:00:00,000 --> 00:00:03,960
+Welcome to Spice Trail Catering, with over 15 years of culinary excellence.
+
+2
+00:00:04,980 --> 00:00:07,960
+From traditional South Indian feasts to vibrant global spreads,
+
+3
+00:00:08,260 --> 00:00:12,760
+we craft every plate with heart. Let us turn your celebration into a flavorful,
+
+4
+00:00:12,980 --> 00:00:14,160
+unforgettable experience.
+
