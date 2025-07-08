@@ -10,25 +10,39 @@ python tts_edge.py
 # STEP 1: Create animated video clips from images (5s each)
 
 # 1. Zoom-in effect for image 1
-ffmpeg -y -loop 1 -i input/image_1.jpeg -filter_complex \
-"[0:v]scale=1400:788,zoompan=z='zoom+0.0005':d=125:s=1280x720:fps=25,format=yuv420p" \
+ffmpeg -y -loop 1 -i input/image_1.jpeg \
+-filter_complex "[0:v]scale=1400:788,zoompan=z='zoom+0.0005':d=125:s=1280x720:fps=25,format=yuv420p" \
 -t 5 temp/slide1.mp4
 
 # 2. Pan right effect for image 2
-ffmpeg -y -loop 1 -i input/image_2.jpeg -filter_complex \
-"[0:v]scale=1440:720,trim=duration=5,setsar=1,format=yuv420p,crop=1280:720:x='(in_w-1280)*t/5':y=0" \
+ffmpeg -y -loop 1 -i input/image_2.jpeg \
+-filter_complex "[0:v]scale=1440:720,trim=duration=5,setsar=1,format=yuv420p,crop=1280:720:x='(in_w-1280)*t/5':y=0" \
 -r 25 temp/slide2.mp4
 
 # 3. Vertical pan with fade-in for image 3
-ffmpeg -y -loop 1 -i input/image_3.jpeg -filter_complex \
-"[0:v]scale=1280:1440,trim=duration=5,setsar=1,crop=1280:720:y='(in_h-720)*t/5':x=0,fade=t=in:st=0:d=1,format=yuv420p" \
+ffmpeg -y -loop 1 -i input/image_3.jpeg \
+-filter_complex "[0:v]scale=1280:1440,trim=duration=5,setsar=1,crop=1280:720:y='(in_h-720)*t/5':x=0,fade=t=in:st=0:d=1,format=yuv420p" \
 -r 25 -t 5 temp/slide3.mp4
 
 # STEP 2: Concatenate slides into one video
-ffmpeg -y -f concat -safe 0 -i <(printf "file '$PWD/temp/slide1.mp4'\nfile '$PWD/temp/slide2.mp4'\nfile '$PWD/temp/slide3.mp4'") -c:v libx264 -pix_fmt yuv420p temp/temp_video.mp4
+ffmpeg -y -f concat -safe 0 -i <(printf "file '$PWD/temp/slide1.mp4'\nfile '$PWD/temp/slide2.mp4'\nfile '$PWD/temp/slide3.mp4'") \
+-c:v libx264 -pix_fmt yuv420p temp/no_logo_video.mp4
+
+# STEP 2.5: Add faint center logo and small bottom-right logo
+
+ffmpeg -y -i temp/no_logo_video.mp4 -i input/full_logo.png \
+-filter_complex "\
+[1:v]format=rgba,split=2[logo_a][logo_b]; \
+[logo_a]scale=500:-1,colorchannelmixer=aa=0.1[logo_faint]; \
+[logo_b]scale=100:-1[logo_small]; \
+[0:v][logo_faint]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:format=auto[tmp1]; \
+[tmp1][logo_small]overlay=W-w-20:H-h-20:format=auto" \
+-c:v libx264 -pix_fmt yuv420p -y temp/temp_video.mp4
 
 # STEP 3: Mix narration and background music (adjust bgm volume down)
-ffmpeg -y -i audio/voiceover.wav -i audio/bgm.wav -filter_complex "[1:a]volume=0.2[a1];[0:a][a1]amix=inputs=2:duration=first:dropout_transition=2[aout]" -map "[aout]" -c:a aac -b:a 128k temp/temp_audio.m4a
+ffmpeg -y -i audio/voiceover.wav -i audio/bgm.wav \
+-filter_complex "[1:a]volume=0.2[a1];[0:a][a1]amix=inputs=2:duration=first:dropout_transition=2[aout]" \
+-map "[aout]" -c:a aac -b:a 128k temp/temp_audio.m4a
 
 # STEP 4: Combine final video and mixed audio
 ffmpeg -y -i temp/temp_video.mp4 -i temp/temp_audio.m4a -c:v copy -c:a aac -shortest temp/temp_av.mp4
