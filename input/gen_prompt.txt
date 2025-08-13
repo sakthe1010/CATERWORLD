@@ -1,0 +1,14 @@
+You are a professional scriptwriter for marketing videos.
+
+Generate a short, engaging 3-line promotional script for a catering service. The tone should be **elegant**.
+
+Details:
+- Name: SpiceTrail Catering
+- Tagline: 15 Years of Culinary Excellence
+- Cuisine: South Indian, Global, Fusion
+- Location: Chennai
+- Description: From rich South Indian traditions to bold global flavors, every dish is crafted with care and creativity. Whether it's a wedding, festival, or corporate event, we bring heart and hospitality to your table. Let us turn your moments into memories, one plate at a time.
+- Services: Weddings, Festivals, Corporate Events
+
+Ensure the script is clear, culturally relevant, emotionally resonant, and ends with a strong call to action.
+Only output the 3-line script.

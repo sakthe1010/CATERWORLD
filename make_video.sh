@@ -5,7 +5,7 @@ set -e
 # Ensure folders exist
 mkdir -p output temp audio input subtitles
 
-python tts_edge.py
+#python tts_edge.py
 
 # STEP 1: Create animated video clips from images (5s each)
 
@@ -30,13 +30,13 @@ ffmpeg -y -f concat -safe 0 -i <(printf "file '$PWD/temp/slide1.mp4'\nfile '$PWD
 
 # STEP 2.5: Add faint center logo and small bottom-right logo
 
-ffmpeg -y -i temp/no_logo_video.mp4 -i input/full_logo.png \
+ffmpeg -y -i temp/no_logo_video.mp4 -i input/caterworld_logo.png \
 -filter_complex "\
 [1:v]format=rgba,split=2[logo_a][logo_b]; \
 [logo_a]scale=500:-1,colorchannelmixer=aa=0.1[logo_faint]; \
 [logo_b]scale=100:-1[logo_small]; \
 [0:v][logo_faint]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:format=auto[tmp1]; \
-[tmp1][logo_small]overlay=W-w-20:H-h-20:format=auto" \
+[tmp1][logo_small]overlay=W-w-20:20:format=auto" \
 -c:v libx264 -pix_fmt yuv420p -y temp/temp_video.mp4
 
 # STEP 3: Mix narration and background music (adjust bgm volume down)
@@ -53,4 +53,4 @@ whisper audio/voiceover.wav --language English --task transcribe --output_format
 # STEP 6: Burn subtitles into the final video
 ffmpeg -y -i temp/temp_av.mp4 -vf subtitles=subtitles/voiceover.srt -c:a copy output/final_promo.mp4
 
-echo "✅ Final promo video saved to: output/final_promo.mp4"
+echo "Final promo video saved to: output/final_promo.mp4"

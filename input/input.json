@@ -1,0 +1,21 @@
+{
+  "caterer_name": "SpiceTrail Catering",
+  "tagline": "15 Years of Culinary Excellence",
+  "description": [
+    "From rich South Indian traditions to bold global flavors, every dish is crafted with care and creativity.",
+    "Whether it's a wedding, festival, or corporate event, we bring heart and hospitality to your table.",
+    "Let us turn your moments into memories, one plate at a time."
+  ],
+  "cuisine": [
+    "South Indian",
+    "Global",
+    "Fusion"
+  ],
+  "location": "Chennai",
+  "services": [
+    "Weddings",
+    "Festivals",
+    "Corporate Events"
+  ],
+  "tone_preference": "youthful"
+}

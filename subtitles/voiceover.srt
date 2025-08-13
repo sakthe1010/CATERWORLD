@@ -1,16 +1,32 @@
 1
-00:00:00,000 --> 00:00:03,960
-Welcome to Spice Trail Catering, with over 15 years of culinary excellence.
+00:00:00,000 --> 00:00:02,380
+Your Spicedrel Catering, 15 years of culinary excellence.
 
 2
-00:00:04,980 --> 00:00:07,960
-From traditional South Indian feasts to vibrant global spreads,
+00:00:02,800 --> 00:00:04,680
+From rich South Indian traditions to bold global flavors,
 
 3
-00:00:08,260 --> 00:00:12,760
-we craft every plate with heart. Let us turn your celebration into a flavorful,
+00:00:04,920 --> 00:00:06,380
+every dish is crafted with care and creativity.
 
 4
-00:00:12,980 --> 00:00:14,160
-unforgettable experience.
+00:00:06,860 --> 00:00:08,440
+Whether it's a wedding, festival, or corporate event,
+
+5
+00:00:08,560 --> 00:00:10,000
+we bring heart and hospitality to your table.
+
+6
+00:00:10,440 --> 00:00:12,420
+Let us turn your moments into memories, one plate at a time.
+
+7
+00:00:12,860 --> 00:00:14,920
+Specializing in South Indian, global, fusion cuisine.
+
+8
+00:00:15,360 --> 00:00:17,280
+Spicedrel Catering, proudly showcased on Care World.
 
