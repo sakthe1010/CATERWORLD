@@ -1,0 +1,15 @@
+pandas
+numpy
+matplotlib
+scikit-learn
+sentence-transformers
+joblib
+torch
+Pillow
+tqdm
+git+https://github.com/openai/CLIP.git
+edge-tts
+pydub
+soundfile
+kokoro
+google-generativeai
