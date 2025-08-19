@@ -1,5 +1,3 @@
-# File: compare_scores.py
-
 import pandas as pd
 
 # --- Load scores ---

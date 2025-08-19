@@ -1,5 +1,3 @@
-# File: detect_tone_clip.py
-
 import os
 import json
 import torch
