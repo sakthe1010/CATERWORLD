@@ -68,7 +68,7 @@ CATERWORLD/
 
 ---
 
-## Usage
+## Usage (Step-by-Step)
 
 ### 1. Install dependencies
 ```bash
@@ -85,24 +85,64 @@ pip install -r requirements.txt
 python3 src/tools/train_reward_model.py
 ```
 
-### 4. Run the pipeline via API
+### 4. Generate prompt for scriptwriting
+```bash
+python3 src/pipeline/prompt_generator.py
+```
+
+### 5. Generate script variants for different tones
+```bash
+python3 src/pipeline/script_variants.py
+```
+
+### 6. Score script variants and select the best
+```bash
+python3 src/pipeline/scorer.py
+```
+
+### 7. Visualize script scores and embeddings
+```bash
+python3 src/pipeline/score_visualizer.py
+```
+
+### 8. Compare Gemini and reward model scores
+```bash
+python3 src/tools/compare_scores.py
+```
+
+### 9. Synthesize TTS audio
+You must run one of the TTS scripts before generating the final video:
+- For Edge TTS:
+  ```bash
+  python3 src/tts/tts_edge.py
+  ```
+- For Kokoro TTS (recommended for high-quality voiceover):
+  ```bash
+  python3 src/tts/tts_kokoro.py
+  ```
+  > **Note:** Run this before executing `make_video.sh` to ensure the generated audio is available for video creation.
+
+### 10. Generate video
+```bash
+bash scripts/make_video.sh
+```
+
+---
+
+## API Usage
+
 Start the API server:
 ```bash
 uvicorn src.api:app --host 0.0.0.0 --port 8000
 ```
 
-Use the API endpoints to:
+You can then use the API endpoints to:
 - Generate prompts
 - Generate script variants
 - Score scripts
 - Visualize scores
 - Synthesize TTS audio
 - Compare scores
-
-### 5. Generate video
-```bash
-bash scripts/make_video.sh
-```
 
 ---
 
@@ -126,16 +166,3 @@ The API will be available at `http://localhost:8000`.
 See `requirements.txt` for all Python dependencies.
 
 ---
-
-## License
-See individual folders for license information.
-
----
-
-## Contributing
-Pull requests and suggestions are welcome!
-
----
-
-## Contact
-For more details, see comments in each script or reach out to the project maintainer.
