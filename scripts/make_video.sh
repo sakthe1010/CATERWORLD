@@ -5,8 +5,6 @@ set -e
 # Ensure folders exist
 mkdir -p output temp audio input subtitles
 
-#python tts_edge.py
-
 # STEP 1: Create animated video clips from images (5s each)
 
 # 1. Zoom-in effect for image 1

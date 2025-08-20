@@ -1,6 +1,6 @@
 You are a professional scriptwriter for marketing videos.
 
-Generate a short, engaging 3-line promotional script for a catering service. The tone should be **elegant**.
+Generate a short, engaging 3-line promotional script for a catering service. The tone should be **youthful**.
 
 Details:
 - Name: SpiceTrail Catering
