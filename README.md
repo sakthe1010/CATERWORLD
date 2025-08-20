@@ -1,172 +1,88 @@
-# CaterWorld AI Promo Video Generator
+# CATERWORLD
 
-## Overview
-This project is an **end-to-end AI-powered pipeline** for generating **personalized promotional videos** for catering services.  
-It combines **computer vision (CLIP)**, **LLM-based script generation (Gemini)**, **script ranking (SBERT + Reward Model)**, **Text-to-Speech (Edge TTS / Kokoro)**, and **FFmpeg video assembly** into a fully automated workflow.
-
----
-
-## Features
-- **Tone detection from images** using CLIP (`detect_tone_clip.py`).
-- **Multi-tone script generation** with Gemini (`script_variants.py` / `prompt_generator.py`).
-- **Script scoring and ranking** via:
-  - LLM-based evaluation (`critic_ranker.py`).
-  - SBERT embedding + trained reward model (`scorer.py`, `train_reward_model.py`).
-- **t-SNE visualization of script quality** (`explain_scores.py`).
-- **Comparison of evaluation methods** (`compare.py`).
-- **Voiceover generation**:
-  - Microsoft Edge TTS with dynamic speed adjustment (`tts_edge.py`).
-  - Kokoro TTS for alternative voices (`tts_kokoro.py`).
-- **Final video assembly** with animated slides, logos, background music, and optional subtitles (`make_video.sh`).
-
----
+CATERWORLD is a toolkit for generating, scoring, and producing promotional scripts and videos for catering services using AI models and automation.
 
 ## Project Structure
+
 ```
-├── input/
-│   ├── images/               # Brand images
-│   ├── logo.png               # Brand logo
-│   ├── input.json             # Metadata (name, tagline, description, etc.)
-│   ├── gen_prompt.txt         # Generated prompt for Gemini
-│   └── script_2.txt           # Best-selected script
-│
-├── variants/                  # Script variants generated per tone
-├── audio/
-│   ├── temp.mp3
-│   └── voiceover.wav
-│
-├── output/
-│   ├── final_promo.mp4        # Final video output
-│   ├── gemini_scores.csv
-│   ├── reward_scores.csv
-│   ├── scores.csv
-│   └── tsne_plot.png
-│
-├── models/
-│   └── reward_model.pkl       # Trained Ridge Regression model
-│
-├── scripts/                   # Main processing scripts
+CATERWORLD/
+├── src/                  # Main Python scripts
+│   ├── compare.py        # Compare Gemini and Reward model scores
+│   ├── config.py         # Configuration and paths
+│   ├── scorer.py         # Score script variants using a reward model
+│   ├── prompt_generator.py # Generate prompts for scriptwriting
+│   ├── train_reward_model.py # Train the reward model
+│   ├── critic_ranker.py  # (Other script)
 │   ├── detect_tone_clip.py
-│   ├── prompt_generator.py
-│   ├── script_variants.py
-│   ├── critic_ranker.py
-│   ├── scorer.py
-│   ├── train_reward_model.py
 │   ├── explain_scores.py
-│   ├── compare.py
+│   ├── script_variants.py
 │   ├── tts_edge.py
 │   ├── tts_kokoro.py
-│   └── make_video.sh
-│
-├── subtitles/                 # Optional subtitle files
-└── config.py                  # Centralized paths & settings
+├── data/
+│   ├── input/            # Input files (JSON, prompts, scores)
+│   ├── output/           # Output files (scores, videos)
+│   ├── audio/            # Audio files
+│   ├── subtitles/        # Subtitle files
+├── models/               # Trained model files
+├── assets/
+│   ├── images/           # Images and logos
+│   ├── videos/           # Video assets
+├── requirements.txt      # Python dependencies
+├── README.md             # Project documentation
 ```
 
----
+## Features
+- **Prompt Generation**: Automatically creates marketing prompts for catering services.
+- **Script Scoring**: Uses a trained reward model to score and select the best promotional scripts.
+- **Score Comparison**: Compares scores from different models and reports improvements.
+- **Audio & Video Automation**: Integrates with TTS and video generation scripts.
+- **Configurable**: All paths and settings are managed via `src/config.py`.
 
-## Installation
+## Setup
 
-### 1️Clone Repository & Install Requirements
-```bash
-git clone https://github.com/sakthe1010/CATERWORLD.git
-cd CATERWORLD
-pip install -r requirements.txt
-```
-
-### 2️Set Environment Variables
-```bash
-export GOOGLE_API_KEY="your_gemini_api_key"
-```
-
-### 3️Prepare Input Data
-Place:
-- Brand images in `input/`
-- Logo at `input/logo.png`
-- Metadata in `input/input.json`:
-```json
-{
-  "caterer_name": "SpiceTrail Catering",
-  "tagline": "15 Years of Culinary Excellence",
-  "description": ["Delicious food", "Elegant presentation", "Exceptional service"],
-  "cuisine": ["Indian", "Continental"],
-  "services": ["Wedding Catering", "Corporate Events"],
-  "location": "Chennai"
-}
-```
-
----
-
-## Workflow
-
-1. **Detect visual tone**  
+1. **Install dependencies**:
    ```bash
-   python detect_tone_clip.py
+   pip install -r requirements.txt
    ```
 
-2. **Generate script variants**  
+2. **Prepare input data**:
+   - Place your input JSON and other files in `data/input/`.
+   - Place audio files in `data/audio/`.
+   - Place images/logos in `assets/images/`.
+
+3. **Train the reward model** (optional):
    ```bash
-   python script_variants.py
+   python3 src/train_reward_model.py
    ```
 
-3. **Evaluate scripts with Gemini (LLM scoring)**  
+4. **Generate prompt**:
    ```bash
-   python critic_ranker.py
+   python3 src/prompt_generator.py
    ```
 
-4. **Train Reward Model (optional)**  
+5. **Score script variants**:
    ```bash
-   python train_reward_model.py
+   python3 src/scorer.py
    ```
 
-5. **Evaluate scripts with Reward Model**  
+6. **Compare scores**:
    ```bash
-   python scorer.py
+   python3 src/compare.py
    ```
 
-6. **Visualize scores with t-SNE**  
-   ```bash
-   python explain_scores.py
-   ```
+## Usage
+- All main scripts are in the `src/` directory. Run them as shown above.
+- Outputs (scores, videos) are saved in `data/output/`.
+- Models are stored in `models/`.
 
-7. **Compare scoring methods**  
-   ```bash
-   python compare.py
-   ```
+## Requirements
+See `requirements.txt` for all Python dependencies.
 
-8. **Generate voiceover**  
-   - Edge TTS:
-     ```bash
-     python tts_edge.py
-     ```
-   - Kokoro TTS:
-     ```bash
-     python tts_kokoro.py
-     ```
+## License
+See individual folders for license information.
 
-9. **Assemble final video**  
-   ```bash
-   bash make_video.sh
-   ```
+## Contributing
+Pull requests and suggestions are welcome!
 
 ---
-
-## Example Output
-- **Tone detected**: `elegant`
-- **Best script**:
-  ```
-  SpiceTrail Catering: 15 Years of Culinary Excellence in Chennai
-  From grand weddings to corporate feasts, we craft unforgettable menus.
-  Book now and make your event a culinary masterpiece!
-  ```
-- **Final video**: `output/final_promo.mp4`
-
----
-
-## Tech Stack
-- **AI/ML**: Google Gemini API, SBERT, CLIP
-- **ML Frameworks**: scikit-learn, sentence-transformers, PyTorch
-- **Audio**: Microsoft Edge TTS, Kokoro TTS, pydub
-- **Video**: FFmpeg
-- **Visualization**: Matplotlib, t-SNE
-
----
+For more details, see comments in each script or reach out to the project maintainer.

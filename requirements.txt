@@ -13,3 +13,6 @@ pydub
 soundfile
 kokoro
 google-generativeai
+uvicorn[standard]
+fastapi
+python-multipart
